@@ -1,0 +1,26 @@
+--- !ruby/object:Hangman
+word: PORTABLE
+word_letters:
+- P
+- O
+- R
+- T
+- A
+- B
+- L
+- E
+used_letters:
+- E
+- S
+- P
+- A
+user_letter:
+- P
+- "-"
+- "-"
+- "-"
+- A
+- "-"
+- "-"
+- E
+tries: 8
