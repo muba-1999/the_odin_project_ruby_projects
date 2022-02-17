@@ -35,6 +35,7 @@ class Hangman
   end
 
   def game
+    guess = 0
     while @tries > 0
       print "Enter a letter or press 1 to save game:> "
       user_input = gets.chomp.upcase
@@ -59,13 +60,14 @@ class Hangman
             @used_letters = @used_letters.uniq
           end 
         end
+        guess += 1
         puts "============================================"
         print "\nused letters: #{@used_letters.join(" ")}\n\n#{@user_letter.join("")}\n\n"
         puts "============================================"
         if is_winner
           puts "\n\t\t*************************************\n\n"
           puts "\t\tCongratulatons you guessed the word"
-          puts "\t\tyou guessed the word in #{@tries} tries"
+          puts "\t\tyou guessed the word in #{guess} tries"
           puts "\n\t\t*************************************"
           break
         end
