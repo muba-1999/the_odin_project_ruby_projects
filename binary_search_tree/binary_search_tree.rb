@@ -148,8 +148,72 @@ class Tree
 			stack << node.left unless node.left.nil?
 		end
 	end
+
+	def postorder
+		main_stack = [@root]
+		alt_stack = []
+
+		while main_stack.length > 0
+			cur_node = main_stack.pop
+			alt_stack << cur_node
+
+			main_stack << cur_node.right unless cur_node.right.nil?
+			main_stack << cur_node.left unless cur_node.left.nil?
+		end
+		while alt_stack.length > 0
+			node = alt_stack.pop
+			yield node.data
+		end
+	end
+
+	def height(root = @root)
+		return -1 if root.nil?
+
+		left_height = height(root.left)
+		right_height = height(root.right)
+		return [left_height, right_height].max + 1
+	end
+
+	def depth(root = @root)
+		return 0 if root.nil?
+
+		[depth(root.left), depth(root.right)].max + 1
+	end
+
+	def balanced?(root = @root)
+		return true if root.nil?
+
+		if (height(root.left) - height(root.right)).abs <= 1 && balanced?(root.left) && (height(root.left) - height(root.right)).abs <= 1 && balanced?(root.right)
+			return true
+		end
+		return false
+	end
+
+	def rebalance
+		arr = []
+		current_node = @root
+		stack = []
+
+		return nil if @root.nil?
+
+		while !stack.empty? || !current_node.nil?
+			unless current_node.nil?
+				stack << current_node
+				current_node = current_node.left
+			else
+				current_node = stack.pop
+				arr << current_node.data
+				current_node = current_node.right
+			end
+		end
+		@root = build_tree(arr)
+	end
+	def pretty_print(node = @root, prefix = '', is_left = true)
+	  pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
+	  puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
+	  pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
+	end
 end
 
 
-
-
+bst = Tree.new(Array.new(15) { rand(1..100) })
